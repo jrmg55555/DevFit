@@ -9,7 +9,7 @@ import {store, persistor} from './src/store';
 export default () => (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <Text>TESTE</Text>
+      <Text>TESTE...</Text>
     </PersistGate>
   </Provider>
 );
