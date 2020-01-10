@@ -5,6 +5,7 @@ import React from 'react';
 import {Button} from 'react-native';
 import {connect} from 'react-redux';
 import styled from 'styled-components/native';
+import {setName} from '../actions/userActions';
 
 const Container = styled.SafeAreaView`
   flex: 1;
@@ -69,7 +70,7 @@ const Page = props => {
 Page.navigationOptions = ({navigation}) => {
   return {
     title: '',
-    headerRight: <NextButton navigation={navigation} />,
+    headerRight: () => <NextButton navigation={navigation} />,
     headerRightContainerStyle: {
       marginRight: 10,
     },
