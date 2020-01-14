@@ -2,10 +2,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 import React, {useEffect} from 'react';
-import {Text} from 'react-native';
+//import {Text} from 'react-native';
 import {connect} from 'react-redux';
 import styled from 'styled-components/native';
 import workoutJson from '../presetWorkouts.json';
+import Workout from '../components/Workout';
 
 const Container = styled.SafeAreaView`
   flex: 1;
@@ -37,7 +38,7 @@ const Page = props => {
       <HeaderText>Você selecionou {props.myWorkouts.length} treinos</HeaderText>
       <WorkoutList
         data={workoutJson}
-        renderItem={({item}) => <Text>{item.name}</Text>}
+        renderItem={({item}) => <Workout data={item} />}
         keyExtractor={item => item.id}
       />
     </Container>
