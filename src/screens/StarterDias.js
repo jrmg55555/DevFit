@@ -1,7 +1,6 @@
-/* eslint-disable eqeqeq */
-/* eslint-disable no-alert */
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-alert */
 import React, {useState} from 'react';
 import {Text, Button} from 'react-native';
 import {connect} from 'react-redux';
@@ -19,7 +18,6 @@ const HeaderText = styled.Text`
   font-size: 15px;
   color: #333;
   text-align: center;
-  margin-top: 30px;
   margin-bottom: 30px;
 `;
 
@@ -27,8 +25,6 @@ const DaysArea = styled.View`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-left: 20px;
-  margin-right: 20px;
 `;
 
 const NextButton = props => {
@@ -54,7 +50,7 @@ const Page = props => {
     if (!newDays.includes(d)) {
       newDays.push(d);
     } else {
-      newDays = newDays.filter(i => i != d);
+      newDays = newDays.filter(i => i !== d);
     }
     setDays(newDays);
 

@@ -1,11 +1,11 @@
-/* eslint-disable no-undef */
 /* eslint-disable no-alert */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Button} from 'react-native';
 import {connect} from 'react-redux';
 import styled from 'styled-components/native';
-import {setName} from '../actions/userActions';
+import {setName, reset} from '../actions/userActions';
 
 const Container = styled.SafeAreaView`
   flex: 1;
@@ -52,6 +52,10 @@ const Page = props => {
     props.setName(t);
     props.navigation.setParams({name: t});
   };
+
+  useEffect(() => {
+    props.reset();
+  }, []);
 
   return (
     <Container>

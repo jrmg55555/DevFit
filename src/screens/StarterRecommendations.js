@@ -1,14 +1,16 @@
-/* eslint-disable no-undef */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
+/* eslint-disable no-shadow */
 import React, {useEffect} from 'react';
-//import {Text} from 'react-native';
+import {Button} from 'react-native';
+import {StackActions, NavigationActions} from 'react-navigation';
 import {connect} from 'react-redux';
 import styled from 'styled-components/native';
-import workoutJson from '../presetWorkouts.json';
+import {addWorkout, delWorkout} from '../actions/userActions';
 import Workout from '../components/Workout';
+import workoutJson from '../presetWorkouts.json';
 
-const Container = styled.SafeAreaView`
+const Container = styled.View`
   flex: 1;
   align-items: center;
   background-color: #fff;
@@ -19,26 +21,61 @@ const HeaderText = styled.Text`
   color: #333;
   text-align: center;
   margin-bottom: 30px;
-  margin-top: 30px;
 `;
-const NextButton = styled.Button``;
+
 const WorkoutList = styled.FlatList`
   width: 100%;
 `;
 
+const NextButton = props => {
+  let btnTitle = 'Ignorar';
+  if (
+    props.navigation.state.params &&
+    props.navigation.state.params.hasWorkout
+  ) {
+    btnTitle = 'Concluir';
+  }
+
+  const nextAction = () => {
+    props.navigation.dispatch(
+      StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({routeName: 'AppTab'})],
+      }),
+    );
+  };
+
+  return <Button title={btnTitle} onPress={nextAction} />;
+};
+
 const Page = props => {
+  const addWorkout = item => {
+    if (props.myWorkouts.findIndex(i => i.id === item.id) < 0) {
+      props.addWorkout(item);
+    } else {
+      props.delWorkout(item);
+    }
+  };
+
   useEffect(() => {
-    props.navigation.setParams({myWorkouts: props.myWorkouts});
+    if (props.myWorkouts.length > 0) {
+      props.navigation.setParams({hasWorkout: true});
+    } else {
+      props.navigation.setParams({hasWorkout: false});
+    }
   }, [props.myWorkouts]);
+
   return (
     <Container>
       <HeaderText>
-        Opções de treino pré-criados com base no seu Nível.
+        Opções de treino pré-criados com base no seu nível.
       </HeaderText>
       <HeaderText>Você selecionou {props.myWorkouts.length} treinos</HeaderText>
       <WorkoutList
         data={workoutJson}
-        renderItem={({item}) => <Workout data={item} />}
+        renderItem={({item}) => (
+          <Workout data={item} addAction={() => addWorkout(item)} />
+        )}
         keyExtractor={item => item.id}
       />
     </Container>
@@ -46,24 +83,9 @@ const Page = props => {
 };
 
 Page.navigationOptions = ({navigation}) => {
-  let btnNext = 'Ignorar';
-  if (
-    navigation.state.params &&
-    navigation.state.params.myWorkouts.length > 0
-  ) {
-    btnNext = 'Concluir';
-  }
-  /* const nextAction = () => {
-    if (!navigation.state.params || !navigation.state.params.level) {
-      alert('Você precisa escolher uma opção!');
-      return;
-    }
-    navigation.navigate('StarterRecommendations');
-  }; */
-
   return {
-    title: ' ',
-    headerRight: () => <NextButton title={btnNext} onPress={nextAction} />,
+    title: '',
+    headerRight: () => <NextButton navigation={navigation} />,
     headerRightContainerStyle: {
       marginRight: 10,
     },
@@ -72,13 +94,15 @@ Page.navigationOptions = ({navigation}) => {
 
 const mapStateToProps = state => {
   return {
+    level: state.userReducer.level,
     myWorkouts: state.userReducer.myWorkouts,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    setLevel: level => dispatch({type: 'SET_LEVEL', payload: {level}}),
+    addWorkout: workout => addWorkout(workout, dispatch),
+    delWorkout: workout => delWorkout(workout, dispatch),
   };
 };
 
