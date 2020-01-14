@@ -18,7 +18,7 @@ const WorkoutTitle = styled.Text`
 `;
 const MuscleScroll = styled.ScrollView``;
 const WorkoutActions = styled.View``;
-const WorkoutButton = styled.TouchableHighLight``;
+const WorkoutButton = styled.View``;
 const WorkoutButtonImage = styled.Image``;
 
 export default props => {

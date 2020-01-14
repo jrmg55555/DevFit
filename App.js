@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-no-undef */
 import React from 'react';
+import {PersistGate} from 'redux-persist/es/integration/react';
 import {Provider} from 'react-redux';
 import {store, persistor} from './src/store';
 
