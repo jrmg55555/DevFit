@@ -7,7 +7,7 @@ const Container = styled.View``;
 export default () => {
   return (
     <Container>
-      <Text>Página HOme</Text>
+      <Text>Página Home</Text>
     </Container>
   );
 };
